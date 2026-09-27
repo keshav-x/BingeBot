@@ -50,7 +50,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 # ---------------------------------------------------------------------------
 # App setup
 # ---------------------------------------------------------------------------
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", static_url_path="/static", template_folder=".")
 
 # ---------------------------------------------------------------------------
 # Data loading
@@ -411,7 +411,7 @@ def index():
                 },
             },
         })
-    return render_template("dashboard.html")
+    return render_template("index.html")
 
 
 @app.route("/api/health")

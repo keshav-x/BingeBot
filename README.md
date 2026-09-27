@@ -176,16 +176,17 @@ Vercel will serve `index.html` directly from its global Edge network. The recomm
 
 ```
 BingeBot/
-├── index.html                  # Standalone Vercel Edge frontend (embedded engine)
+├── index.html                  # Standalone Vercel Edge frontend (markup structure)
 ├── vercel.json                 # Vercel deployment configuration
 ├── app.py                      # Flask REST API & recommendation engine
 ├── requirements.txt            # Minimal dependencies (Flask, scikit-learn, numpy, pandas)
 ├── README.md                   # Project documentation & architecture
-├── sample_data/
-│   ├── catalogue.json          # 6 curated benchmark films
-│   └── interactions.json       # Verified viewer ratings
-└── templates/
-    └── dashboard.html          # Server-rendered Flask template
+├── static/
+│   ├── style.css               # Executive Earth design system (CSS)
+│   └── engine.js               # Client-side recommendation math engine (JS)
+└── sample_data/
+    ├── catalogue.json          # 6 curated benchmark films
+    └── interactions.json       # Verified viewer ratings
 ```
 
 ---
