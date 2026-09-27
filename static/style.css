@@ -375,3 +375,99 @@
             font-size: 11px;
             color: var(--text-muted);
         }
+
+
+
+/* Responsive Mobile Optimization */
+@media (max-width: 900px) {
+    .inputs-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+    .btn-submit {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 16px 14px;
+    }
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    .stat-card {
+        padding: 14px 16px;
+    }
+    .stat-val {
+        font-size: 22px;
+    }
+    .inputs-row {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    .btn-submit {
+        width: 100%;
+        height: 44px;
+        font-size: 14px;
+    }
+    .preset-buttons {
+        flex-direction: column;
+    }
+    .btn-preset {
+        width: 100%;
+        text-align: left;
+        padding: 8px 12px;
+    }
+    .mood-chips {
+        gap: 6px;
+    }
+    .mood-chip {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    .stat-card {
+        padding: 10px 12px;
+    }
+    .stat-val {
+        font-size: 18px;
+    }
+    .form-select {
+        font-size: 16px; /* Prevents auto-zoom on mobile iOS Safari */
+    }
+    .card-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    .score-box {
+        text-align: left;
+    }
+    .results-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    .explanation-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    .intro-banner {
+        padding: 16px;
+    }
+}
