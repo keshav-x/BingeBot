@@ -7,16 +7,16 @@
     <style>
         :root {
             --bg-canvas: #FAF8F5;
-            --bg-card: rgba(255, 255, 255, 0.94);
-            --text-heading: #20162B;
-            --text-body: #3D3846;
-            --text-muted: #7A7585;
-            --border: #E8E3DA;
-            --border-focus: #DE5D43;
-            --accent-coral: #DE5D43;
-            --accent-peach: #F87E56;
-            --accent-magenta: #D0257B;
-            --accent-plum: #20162B;
+            --bg-card: rgba(255, 255, 255, 0.96);
+            --text-heading: #1C1917;
+            --text-body: #332F2C;
+            --text-muted: #6B6560;
+            --border: #E5DFD5;
+            --border-focus: #A34128;
+            --accent-rust: #A34128;
+            --accent-amber: #B45309;
+            --accent-forest: #244B2E;
+            --accent-charcoal: #1C1917;
             --radius: 6px;
         }
 
@@ -25,8 +25,8 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-canvas);
             background-image: 
-                radial-gradient(ellipse 65% 50% at 75% 25%, rgba(248, 126, 86, 0.18) 0%, rgba(224, 54, 130, 0.15) 35%, rgba(107, 34, 104, 0.10) 65%, transparent 80%),
-                radial-gradient(ellipse 50% 45% at 85% 45%, rgba(208, 37, 123, 0.14) 0%, rgba(56, 20, 64, 0.08) 60%, transparent 80%);
+                radial-gradient(ellipse 65% 50% at 75% 25%, rgba(180, 83, 9, 0.08) 0%, rgba(36, 75, 46, 0.06) 50%, transparent 80%),
+                radial-gradient(ellipse 50% 45% at 85% 55%, rgba(163, 65, 40, 0.07) 0%, rgba(28, 25, 23, 0.04) 60%, transparent 80%);
             background-attachment: fixed;
             color: var(--text-body);
             min-height: 100vh;
@@ -34,14 +34,14 @@
             line-height: 1.5;
         }
 
-        /* Top Header with Prismatic Polygon Accent Bar */
-        .prismatic-bar {
+        /* Top Header with Executive Masculine Accent Bar (Rust, Cognac, Olive, Forest) */
+        .executive-bar {
             height: 4px;
             width: 100%;
-            background: linear-gradient(90deg, #F87E56 0%, #EE5265 25%, #E03682 50%, #D0257B 75%, #6B2268 100%);
+            background: linear-gradient(90deg, #A34128 0%, #B45309 35%, #4D5D4B 70%, #244B2E 100%);
         }
         .header {
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border);
             padding: 22px 36px;
@@ -90,7 +90,7 @@
             border-radius: var(--radius);
             padding: 22px 28px;
             margin-bottom: 24px;
-            box-shadow: 0 2px 8px rgba(32, 22, 43, 0.03);
+            box-shadow: 0 2px 8px rgba(28, 25, 23, 0.03);
         }
         .intro-heading {
             font-family: Georgia, Garamond, serif;
@@ -117,7 +117,7 @@
             border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 16px 20px;
-            box-shadow: 0 2px 6px rgba(32, 22, 43, 0.02);
+            box-shadow: 0 2px 6px rgba(28, 25, 23, 0.02);
         }
         .stat-num {
             font-family: Georgia, Garamond, serif;
@@ -141,7 +141,7 @@
             border-radius: var(--radius);
             padding: 24px 28px;
             margin-bottom: 28px;
-            box-shadow: 0 2px 8px rgba(32, 22, 43, 0.03);
+            box-shadow: 0 2px 8px rgba(28, 25, 23, 0.03);
         }
         .panel-heading {
             font-family: Georgia, Garamond, serif;
@@ -181,8 +181,8 @@
             transition: all 0.15s;
         }
         .btn-preset:hover {
-            border-color: var(--accent-coral);
-            color: var(--accent-coral);
+            border-color: var(--accent-rust);
+            color: var(--accent-rust);
         }
 
         .inputs-row {
@@ -213,7 +213,7 @@
             border-color: var(--border-focus);
         }
         .btn-submit {
-            background: var(--accent-plum);
+            background: var(--accent-charcoal);
             color: #FFFFFF;
             border: none;
             border-radius: var(--radius);
@@ -225,7 +225,7 @@
             transition: background 0.15s;
         }
         .btn-submit:hover {
-            background: #3B2E4D;
+            background: #383431;
         }
 
         /* Mood Selector Row */
@@ -259,9 +259,9 @@
             transition: all 0.15s;
         }
         .mood-chip:hover, .mood-chip.active {
-            background: var(--accent-coral);
+            background: var(--accent-rust);
             color: #FFFFFF;
-            border-color: var(--accent-coral);
+            border-color: var(--accent-rust);
         }
 
         /* Results List */
@@ -298,7 +298,7 @@
             border: 1px solid var(--border);
             border-radius: var(--radius);
             padding: 20px 24px;
-            box-shadow: 0 2px 6px rgba(32, 22, 43, 0.02);
+            box-shadow: 0 2px 6px rgba(28, 25, 23, 0.02);
         }
         .card-top {
             display: flex;
@@ -328,7 +328,7 @@
             font-family: Georgia, Garamond, serif;
             font-size: 19px;
             font-weight: 700;
-            color: var(--accent-coral);
+            color: var(--accent-rust);
         }
         .pred-rating {
             font-size: 11px;
@@ -357,7 +357,7 @@
         }
 
         .explanation-footer {
-            border-top: 1px solid #F0ECE4;
+            border-top: 1px solid #ECE7DE;
             padding-top: 10px;
             font-size: 12px;
             color: var(--text-muted);
@@ -378,7 +378,7 @@
     </style>
 </head>
 <body>
-    <div class="prismatic-bar"></div>
+    <div class="executive-bar"></div>
     <header class="header">
         <div class="header-content">
             <div>
@@ -558,9 +558,7 @@
                 container.innerHTML = data.recommendations.map(item => {
                     const genres = (item.genre || []).map(g => `<span class="meta-tag">${g}</span>`).join('');
                     
-                    // Fixed Calculation:
-                    // Raw hybrid_score is on a 0.0 - 5.0 scale.
-                    // Match % is normalized to 0 - 100%:
+                    // Normalized to 0 - 100%:
                     const rawScore = item.hybrid_score !== undefined ? item.hybrid_score : (item.catalogue_rating || 4.0);
                     const matchPercent = Math.min(100, Math.max(10, Math.round((rawScore / 5.0) * 100)));
                     const predRating = Math.min(5.0, Math.max(1.0, rawScore)).toFixed(1);
@@ -605,7 +603,7 @@
                 }).join('');
 
             } catch (err) {
-                container.innerHTML = `<div style="padding: 24px; text-align: center; color: var(--accent-coral);">Failed to compute recommendations: ${err.message}</div>`;
+                container.innerHTML = `<div style="padding: 24px; text-align: center; color: var(--accent-rust);">Failed to compute recommendations: ${err.message}</div>`;
             }
         }
 
