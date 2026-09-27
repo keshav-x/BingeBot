@@ -16,35 +16,13 @@ Runs locally with Python and Flask, or directly on Vercel as a zero-server stati
 
 ---
 
-## Architecture & How It Works
+## How BingeBot Generates Recommendations
 
-Here is the simple flow of how recommendations are calculated:
+BingeBot recommends films using a mathematical hybrid ranking pipeline:
 
-```
-User Selection (User Profile, Current Mood, Optional Genre)
-      |
-      v
-Is this a brand new user with no history?
-      |-- Yes -> Show highest-rated movies matching their mood (Cold Start)
-      |-- No  -> Calculate 3 signals:
-      |            1. Collaborative (50%): What similar viewers liked
-      |            2. Content (30%): Movies sharing genres with past 4+ star ratings
-      |            3. Mood Boost (20%): Extra points if movie matches current mood
-      v
-Combine into final score (1.0 to 5.0 stars and match percentage)
-      v
-Show ranked movie recommendations with reasons why each was picked
-```
-
-### Breakdown of the Pipeline
-
-1. Taste Similarity (50%): Uses cosine similarity across user rating history to find other people who like the same kinds of movies. We use their ratings to predict what you will enjoy.
-2. Genre Matching (30%): Looks at the movies you rated 4 or 5 stars and compares their genres to other titles in the catalogue.
-3. Mood Boost (20%): If you select a mood like "cerebral", "dark", or "adrenaline", movies tagged with that mood get a boost in ranking.
-4. New User Fallback (Cold Start): When a new user with zero ratings opens the app, instead of showing an empty screen, we show the highest-rated movies that fit their chosen mood.
-5. Dual-Mode Setup:
-   - Local: Runs via app.py using Flask, NumPy, and Scikit-Learn at http://127.0.0.1:5001.
-   - Vercel: Runs all matrix math directly in the browser with JavaScript (static/engine.js). Requires zero backend server or hosting fees.
+1. **Collaborative Filtering (50% weight)**: Predicts what you would rate a title (0.0 to 5.0 scale) based on cosine similarity with viewers who share your taste.
+2. **Content Trait Similarity (30% weight)**: Computes feature vector similarity with genres and themes you previously watched.
+3. **Mood Tone Alignment (20% weight)**: Boosts titles aligned with your requested emotional tone. For new visitors with zero viewing history, it uses an automatic **Cold-Start Popularity Fallback**.
 
 ---
 
@@ -77,7 +55,6 @@ python app.py
 Open http://127.0.0.1:5001 in your browser.
 
 ---
-
 
 ## API Endpoints (Local Flask)
 
