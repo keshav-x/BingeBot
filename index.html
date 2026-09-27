@@ -23,13 +23,12 @@
         <!-- Clear Introduction Banner -->
         <div class="intro-banner">
             <h2 class="intro-heading">How BingeBot Generates Recommendations</h2>
-            <p class="intro-text">
-                BingeBot recommends films using a mathematical <strong>hybrid ranking pipeline</strong>:
-                1. <strong>Collaborative Filtering (50% weight)</strong>: Predicts what you would rate a title (0.0 to 5.0 scale) based on cosine similarity with viewers who share your taste.
-                2. <strong>Content Trait Similarity (30% weight)</strong>: Computes feature vector similarity with genres and themes you previously watched.
-                3. <strong>Mood Tone Alignment (20% weight)</strong>: Boosts titles aligned with your requested emotional tone.
-                For new visitors with zero viewing history, it uses an automatic <strong>Cold-Start Popularity Fallback</strong>.
-            </p>
+            <p class="intro-lead">BingeBot recommends films using a mathematical <strong>hybrid ranking pipeline</strong>:</p>
+            <ol class="intro-list">
+                <li><strong>Collaborative Filtering (50% weight)</strong>: Predicts what you would rate a title (0.0 to 5.0 scale) based on cosine similarity with viewers who share your taste.</li>
+                <li><strong>Content Trait Similarity (30% weight)</strong>: Computes feature vector similarity with genres and themes you previously watched.</li>
+                <li><strong>Mood Tone Alignment (20% weight)</strong>: Boosts titles aligned with your requested emotional tone. For new visitors with zero viewing history, it uses an automatic <strong>Cold-Start Popularity Fallback</strong>.</li>
+            </ol>
         </div>
 
         <!-- Real Stats Strip -->
