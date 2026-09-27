@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BingeBot - Hybrid OTT Content Recommendation Engine</title>
+    <style>
+        :root {
+            --bg-canvas: #FAF8F5;
+            --bg-card: rgba(255, 255, 255, 0.94);
+            --text-heading: #20162B;
+            --text-body: #3D3846;
+            --text-muted: #7A7585;
+            --border: #E8E3DA;
+            --border-focus: #DE5D43;
+            --accent-coral: #DE5D43;
+            --accent-peach: #F87E56;
+            --accent-magenta: #D0257B;
+            --accent-plum: #20162B;
+            --radius: 6px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-canvas);
+            background-image: 
+                radial-gradient(ellipse 65% 50% at 75% 25%, rgba(248, 126, 86, 0.18) 0%, rgba(224, 54, 130, 0.15) 35%, rgba(107, 34, 104, 0.10) 65%, transparent 80%),
+                radial-gradient(ellipse 50% 45% at 85% 45%, rgba(208, 37, 123, 0.14) 0%, rgba(56, 20, 64, 0.08) 60%, transparent 80%);
+            background-attachment: fixed;
+            color: var(--text-body);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.5;
+        }
+
+        /* Top Header with Prismatic Polygon Accent Bar */
+        .prismatic-bar {
+            height: 4px;
+            width: 100%;
+            background: linear-gradient(90deg, #F87E56 0%, #EE5265 25%, #E03682 50%, #D0257B 75%, #6B2268 100%);
+        }
+        .header {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 22px 36px;
+        }
+        .header-content {
+            max-width: 1160px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-title {
+            font-family: Georgia, Garamond, "Times New Roman", serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-heading);
+            letter-spacing: -0.02em;
+        }
+        .header-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        .badge-academic {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            padding: 4px 10px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-canvas);
+            color: var(--text-muted);
+        }
+
+        .container {
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 32px 24px 60px;
+        }
+
+        /* Explanatory Banner */
+        .intro-banner {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 22px 28px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(32, 22, 43, 0.03);
+        }
+        .intro-heading {
+            font-family: Georgia, Garamond, serif;
+            font-size: 18px;
+            color: var(--text-heading);
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .intro-text {
+            font-size: 13px;
+            color: var(--text-body);
+            line-height: 1.6;
+        }
+
+        /* Real Stats Strip */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            box-shadow: 0 2px 6px rgba(32, 22, 43, 0.02);
+        }
+        .stat-num {
+            font-family: Georgia, Garamond, serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+        .stat-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-top: 2px;
+            font-weight: 600;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px 28px;
+            margin-bottom: 28px;
+            box-shadow: 0 2px 8px rgba(32, 22, 43, 0.03);
+        }
+        .panel-heading {
+            font-family: Georgia, Garamond, serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-heading);
+            margin-bottom: 14px;
+        }
+
+        /* Presets Strip */
+        .presets-row {
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .presets-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .preset-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .btn-preset {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 6px 12px;
+            font-size: 12px;
+            color: var(--text-heading);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .btn-preset:hover {
+            border-color: var(--accent-coral);
+            color: var(--accent-coral);
+        }
+
+        .inputs-row {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 1fr auto;
+            gap: 16px;
+            align-items: end;
+        }
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-heading);
+            margin-bottom: 6px;
+        }
+        .form-select {
+            width: 100%;
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 9px 12px;
+            font-size: 13px;
+            color: var(--text-heading);
+            outline: none;
+            font-family: inherit;
+        }
+        .form-select:focus {
+            border-color: var(--border-focus);
+        }
+        .btn-submit {
+            background: var(--accent-plum);
+            color: #FFFFFF;
+            border: none;
+            border-radius: var(--radius);
+            padding: 10px 22px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.15s;
+        }
+        .btn-submit:hover {
+            background: #3B2E4D;
+        }
+
+        /* Mood Selector Row */
+        .mood-row {
+            margin-top: 18px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+        .mood-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: block;
+        }
+        .mood-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .mood-chip {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            color: var(--text-body);
+            padding: 5px 12px;
+            border-radius: var(--radius);
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+        .mood-chip:hover, .mood-chip.active {
+            background: var(--accent-coral);
+            color: #FFFFFF;
+            border-color: var(--accent-coral);
+        }
+
+        /* Results List */
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+        .results-title {
+            font-family: Georgia, Garamond, serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+        .mode-tag {
+            font-size: 12px;
+            color: var(--text-muted);
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            padding: 3px 8px;
+            border-radius: var(--radius);
+        }
+
+        .cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .recommendation-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 20px 24px;
+            box-shadow: 0 2px 6px rgba(32, 22, 43, 0.02);
+        }
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+        .card-title-group {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+        .movie-title {
+            font-family: Georgia, Garamond, serif;
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--text-heading);
+        }
+        .movie-year {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .score-box {
+            text-align: right;
+        }
+        .match-score {
+            font-family: Georgia, Garamond, serif;
+            font-size: 19px;
+            font-weight: 700;
+            color: var(--accent-coral);
+        }
+        .pred-rating {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .meta-tags {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .meta-tag {
+            background: var(--bg-canvas);
+            border: 1px solid var(--border);
+            color: var(--text-body);
+            font-size: 11px;
+            padding: 2px 7px;
+            border-radius: 4px;
+        }
+        .synopsis {
+            font-size: 13px;
+            color: var(--text-body);
+            line-height: 1.5;
+            margin-bottom: 14px;
+        }
+
+        .explanation-footer {
+            border-top: 1px solid #F0ECE4;
+            padding-top: 10px;
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .why-box {
+            font-style: italic;
+            color: var(--text-body);
+        }
+        .sub-scores {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div class="prismatic-bar"></div>
+    <header class="header">
+        <div class="header-content">
+            <div>
+                <h1 class="header-title">BingeBot</h1>
+                <div class="header-subtitle">Hybrid OTT Content Recommendation Engine</div>
+            </div>
+            <div class="badge-academic">AI & Python Industrial Training Project</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Clear Introduction Banner -->
+        <div class="intro-banner">
+            <h2 class="intro-heading">How BingeBot Generates Recommendations</h2>
+            <p class="intro-text">
+                BingeBot recommends films using a mathematical <strong>hybrid ranking pipeline</strong>:
+                1. <strong>Collaborative Filtering (50% weight)</strong>: Predicts what you would rate a title (0.0 to 5.0 scale) based on cosine similarity with viewers who share your taste.
+                2. <strong>Content Trait Similarity (30% weight)</strong>: Computes feature vector similarity with genres and themes you previously watched.
+                3. <strong>Mood Tone Alignment (20% weight)</strong>: Boosts titles aligned with your requested emotional tone.
+                For new visitors with zero viewing history, it uses an automatic <strong>Cold-Start Popularity Fallback</strong>.
+            </p>
+        </div>
+
+        <!-- Real Stats Strip -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-num">6</div>
+                <div class="stat-label">Catalogue Titles</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">3</div>
+                <div class="stat-label">Viewer Profiles</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">9</div>
+                <div class="stat-label">Verified Ratings</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num">0 - 100%</div>
+                <div class="stat-label">Match Score (0.0-5.0 Scale)</div>
+            </div>
+        </div>
+
+        <!-- Interactive Control Panel -->
+        <div class="control-panel">
+            <div class="panel-heading">Recommendation Console</div>
+
+            <!-- Quick Presets for Examiner -->
+            <div class="presets-row">
+                <span class="presets-label">Click a test scenario to demonstrate instantly:</span>
+                <div class="preset-buttons">
+                    <button type="button" class="btn-preset" onclick="applyPreset('U001', '', 'cerebral')">Test 1: Sci-Fi Enthusiast (User 1)</button>
+                    <button type="button" class="btn-preset" onclick="applyPreset('U002', '', 'dark')">Test 2: Crime Fan (User 2)</button>
+                    <button type="button" class="btn-preset" onclick="applyPreset('NEW_USER', '', 'inspiring')">Test 3: First-Time User (Cold Start)</button>
+                </div>
+            </div>
+
+            <div class="inputs-row">
+                <div class="input-group">
+                    <label for="userSelect">1. Choose Viewer Profile</label>
+                    <select id="userSelect" class="form-select">
+                        <option value="U001">User 1: Sci-Fi Lover (Rated Inception, Interstellar)</option>
+                        <option value="U002">User 2: Crime & Mystery Fan (Rated The Dark Knight, Knives Out)</option>
+                        <option value="U003">User 3: Drama & Animation Fan (Rated Shawshank, Spirited Away)</option>
+                        <option value="NEW_USER">New User: Cold Start (Zero prior viewing history)</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="genreSelect">2. Filter Genre (Optional)</label>
+                    <select id="genreSelect" class="form-select">
+                        <option value="">All Genres</option>
+                        <option value="Sci-Fi">Sci-Fi</option>
+                        <option value="Crime">Crime</option>
+                        <option value="Drama">Drama</option>
+                        <option value="Action">Action</option>
+                        <option value="Comedy">Comedy</option>
+                        <option value="Animation">Animation</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="topNSelect">3. Count</label>
+                    <select id="topNSelect" class="form-select">
+                        <option value="3" selected>Top 3</option>
+                        <option value="5">Top 5</option>
+                    </select>
+                </div>
+                <div>
+                    <button class="btn-submit" id="btnRecommend" onclick="fetchRecommendations()">
+                        Show Recommendations
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tone / Mood Selection Row -->
+            <div class="mood-row">
+                <span class="mood-label">Tone or Mood Preference (Boosts matching titles):</span>
+                <div class="mood-chips">
+                    <div class="mood-chip active" data-mood="">Any Tone</div>
+                    <div class="mood-chip" data-mood="tense">Tense & Suspenseful</div>
+                    <div class="mood-chip" data-mood="fun">Lighthearted & Fun</div>
+                    <div class="mood-chip" data-mood="melancholic">Reflective & Deep</div>
+                    <div class="mood-chip" data-mood="dark">Dark & Gritty</div>
+                    <div class="mood-chip" data-mood="cerebral">Cerebral & Complex</div>
+                    <div class="mood-chip" data-mood="inspiring">Uplifting & Inspiring</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Output Section -->
+        <div class="results-header">
+            <div class="results-title">Recommended Titles</div>
+            <div class="mode-tag" id="modeIndicator">Collaborative + Content Hybrid Mode</div>
+        </div>
+
+        <div id="resultsContainer" class="cards-list">
+            <!-- Dynamic Cards Loaded Here -->
+        </div>
+    </div>
+
+    <script>
+        let currentMood = "";
+
+        function applyPreset(userId, genre, mood) {
+            document.getElementById('userSelect').value = userId;
+            document.getElementById('genreSelect').value = genre;
+            currentMood = mood;
+            document.querySelectorAll('.mood-chip').forEach(chip => {
+                if (chip.getAttribute('data-mood') === mood) chip.classList.add('active');
+                else chip.classList.remove('active');
+            });
+            fetchRecommendations();
+        }
+
+        document.querySelectorAll('.mood-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('.mood-chip').forEach(p => p.classList.remove('active'));
+                chip.classList.add('active');
+                currentMood = chip.getAttribute('data-mood');
+                fetchRecommendations();
+            });
+        });
+
+        async function fetchRecommendations() {
+            const container = document.getElementById('resultsContainer');
+            const userId = document.getElementById('userSelect').value;
+            const genre = document.getElementById('genreSelect').value;
+            const topN = parseInt(document.getElementById('topNSelect').value);
+            const indicator = document.getElementById('modeIndicator');
+
+            container.innerHTML = '<div style="padding: 24px; text-align: center; color: var(--text-muted);">Computing hybrid recommendations...</div>';
+
+            try {
+                const response = await fetch('/api/recommend', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        mood: currentMood,
+                        genre: genre,
+                        top_n: topN
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.is_cold_start) {
+                    indicator.textContent = 'Cold Start Fallback (Top Popular Titles + Mood Match)';
+                } else {
+                    indicator.textContent = 'Personalized Hybrid Mode (Collaborative + Content + Mood)';
+                }
+
+                if (!data.recommendations || data.recommendations.length === 0) {
+                    container.innerHTML = '<div style="padding: 24px; text-align: center; color: var(--text-muted);">No catalogue titles match the requested combination of genre and mood.</div>';
+                    return;
+                }
+
+                container.innerHTML = data.recommendations.map(item => {
+                    const genres = (item.genre || []).map(g => `<span class="meta-tag">${g}</span>`).join('');
+                    
+                    // Fixed Calculation:
+                    // Raw hybrid_score is on a 0.0 - 5.0 scale.
+                    // Match % is normalized to 0 - 100%:
+                    const rawScore = item.hybrid_score !== undefined ? item.hybrid_score : (item.catalogue_rating || 4.0);
+                    const matchPercent = Math.min(100, Math.max(10, Math.round((rawScore / 5.0) * 100)));
+                    const predRating = Math.min(5.0, Math.max(1.0, rawScore)).toFixed(1);
+
+                    // Scores breakdown
+                    const collabScore = item.scores && item.scores.collaborative ? item.scores.collaborative.toFixed(1) : null;
+                    const contentScore = item.scores && item.scores.content ? item.scores.content.toFixed(1) : null;
+                    const moodMatch = item.scores && item.scores.mood_boost > 0 ? "Tone Matched (+0.2)" : null;
+
+                    const breakdownParts = [];
+                    if (collabScore) breakdownParts.push(`Similar Viewers: ${collabScore} / 5.0`);
+                    if (contentScore) breakdownParts.push(`Content Trait Match: ${contentScore} / 5.0`);
+                    if (moodMatch) breakdownParts.push(moodMatch);
+
+                    return `
+                        <article class="recommendation-card">
+                            <div class="card-top">
+                                <div>
+                                    <div class="card-title-group">
+                                        <h3 class="movie-title">${escapeHtml(item.title)}</h3>
+                                        <span class="movie-year">${item.year || ''}</span>
+                                    </div>
+                                    <div class="meta-tags" style="margin-top: 6px;">
+                                        ${genres}
+                                        <span class="meta-tag">Catalogue Rating: ${item.catalogue_rating || '4.5'} / 5.0</span>
+                                    </div>
+                                </div>
+                                <div class="score-box">
+                                    <div class="match-score">${matchPercent}% Match</div>
+                                    <div class="pred-rating">Predicted Rating: ${predRating} / 5.0</div>
+                                </div>
+                            </div>
+
+                            <p class="synopsis">${escapeHtml(item.description)}</p>
+
+                            <div class="explanation-footer">
+                                <div class="why-box">Why: ${escapeHtml(item.explanation)}</div>
+                                ${breakdownParts.length > 0 ? `<div class="sub-scores">${breakdownParts.join(' &bull; ')}</div>` : ''}
+                            </div>
+                        </article>
+                    `;
+                }).join('');
+
+            } catch (err) {
+                container.innerHTML = `<div style="padding: 24px; text-align: center; color: var(--accent-coral);">Failed to compute recommendations: ${err.message}</div>`;
+            }
+        }
+
+        function escapeHtml(s) {
+            if (!s) return '';
+            const d = document.createElement('div');
+            d.textContent = s;
+            return d.innerHTML;
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchRecommendations();
+        });
+    </script>
+</body>
+</html>

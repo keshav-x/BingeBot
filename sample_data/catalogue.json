@@ -1,0 +1,121 @@
+[
+  {
+    "id": "T001",
+    "title": "Inception",
+    "genre": [
+      "Sci-Fi",
+      "Thriller"
+    ],
+    "type": "Movie",
+    "year": 2010,
+    "duration_min": 148,
+    "description": "A thief who steals corporate secrets through dream-sharing technology is given the inverse task of planting an idea into the mind of a CEO.",
+    "sentiment_tone": "cerebral",
+    "mood_tags": [
+      "cerebral",
+      "tense",
+      "mind-bending"
+    ],
+    "language": "English",
+    "rating": 4.8
+  },
+  {
+    "id": "T002",
+    "title": "The Dark Knight",
+    "genre": [
+      "Crime",
+      "Action"
+    ],
+    "type": "Movie",
+    "year": 2008,
+    "duration_min": 152,
+    "description": "When the menace known as the Joker wreaks havoc on Gotham, Batman must accept one of the greatest psychological and physical tests.",
+    "sentiment_tone": "dark",
+    "mood_tags": [
+      "dark",
+      "gritty",
+      "tense"
+    ],
+    "language": "English",
+    "rating": 4.9
+  },
+  {
+    "id": "T003",
+    "title": "Interstellar",
+    "genre": [
+      "Sci-Fi",
+      "Drama"
+    ],
+    "type": "Movie",
+    "year": 2014,
+    "duration_min": 169,
+    "description": "When Earth becomes uninhabitable in the future, a farmer and ex-NASA pilot is tasked to pilot a spacecraft along with a team of researchers to find a new planet.",
+    "sentiment_tone": "reflective",
+    "mood_tags": [
+      "cerebral",
+      "inspiring",
+      "melancholic"
+    ],
+    "language": "English",
+    "rating": 4.8
+  },
+  {
+    "id": "T004",
+    "title": "The Shawshank Redemption",
+    "genre": [
+      "Drama"
+    ],
+    "type": "Movie",
+    "year": 1994,
+    "duration_min": 142,
+    "description": "Over the course of several years, two convicts form a friendship, seeking solace and eventual redemption through basic compassion.",
+    "sentiment_tone": "inspiring",
+    "mood_tags": [
+      "inspiring",
+      "reflective",
+      "uplifting"
+    ],
+    "language": "English",
+    "rating": 4.9
+  },
+  {
+    "id": "T005",
+    "title": "Spirited Away",
+    "genre": [
+      "Animation",
+      "Fantasy"
+    ],
+    "type": "Movie",
+    "year": 2001,
+    "duration_min": 125,
+    "description": "During her family's move to the suburbs, a sullen 10-year-old girl wanders into a world ruled by gods, witches, and spirits where humans are changed into beasts.",
+    "sentiment_tone": "inspiring",
+    "mood_tags": [
+      "inspiring",
+      "fun",
+      "magical"
+    ],
+    "language": "Japanese",
+    "rating": 4.7
+  },
+  {
+    "id": "T006",
+    "title": "Knives Out",
+    "genre": [
+      "Comedy",
+      "Mystery"
+    ],
+    "type": "Movie",
+    "year": 2019,
+    "duration_min": 130,
+    "description": "A master detective investigates the death of the patriarch of an eccentric, combative family.",
+    "sentiment_tone": "fun",
+    "mood_tags": [
+      "fun",
+      "witty",
+      "tense"
+    ],
+    "language": "English",
+    "rating": 4.5
+  }
+]

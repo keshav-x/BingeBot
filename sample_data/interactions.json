@@ -1,0 +1,56 @@
+[
+  {
+    "user_id": "U001",
+    "title_id": "T001",
+    "rating": 5,
+    "watched": true
+  },
+  {
+    "user_id": "U001",
+    "title_id": "T003",
+    "rating": 5,
+    "watched": true
+  },
+  {
+    "user_id": "U001",
+    "title_id": "T002",
+    "rating": 4,
+    "watched": true
+  },
+  {
+    "user_id": "U002",
+    "title_id": "T002",
+    "rating": 5,
+    "watched": true
+  },
+  {
+    "user_id": "U002",
+    "title_id": "T006",
+    "rating": 4,
+    "watched": true
+  },
+  {
+    "user_id": "U002",
+    "title_id": "T001",
+    "rating": 4,
+    "watched": true
+  },
+  {
+    "user_id": "U003",
+    "title_id": "T004",
+    "rating": 5,
+    "watched": true
+  },
+  {
+    "user_id": "U003",
+    "title_id": "T005",
+    "rating": 5,
+    "watched": true
+  },
+  {
+    "user_id": "U003",
+    "title_id": "T003",
+    "rating": 4,
+    "watched": true
+  }
+]
