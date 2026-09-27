@@ -18,18 +18,21 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), "sample_data")
 
 
 def load_catalogue() -> dict[str, dict]:
+    # load movie catalogue dataset
     with open(os.path.join(DATA_DIR, "catalogue.json"), "r", encoding="utf-8") as f:
         items = json.load(f)
     return {item["id"]: item for item in items}
 
 
 def load_interactions() -> list[dict]:
+    # load user rating history
     with open(os.path.join(DATA_DIR, "interactions.json"), "r", encoding="utf-8") as f:
         return json.load(f)
 
 
 _CATALOGUE = load_catalogue()
 _INTERACTIONS = load_interactions()
+# initialize recommendation engine
 _ENGINE = HybridRecommender(_CATALOGUE, _INTERACTIONS)
 
 
@@ -39,18 +42,21 @@ def index():
     return render_template("index.html")
 
 
-# api endpoint: get hybrid recommendations
+# added api endpoint for hybrid recommendations
 @app.route("/api/recommend", methods=["POST"])
 def api_recommend():
+    # parse request payload
     data = request.get_json(silent=True) or {}
     user_id = data.get("user_id", "U001")
     mood = data.get("mood", "")
     genre = data.get("genre", "")
     top_n = int(data.get("top_n", 4))
 
+    # check if user is in cold start state
     is_cold_start = not any(i["user_id"] == user_id for i in _INTERACTIONS)
     results = _ENGINE.recommend(user_id=user_id, mood=mood, genre=genre, top_n=top_n)
 
+    # return json response
     return jsonify({
         "user_id": user_id,
         "is_cold_start": is_cold_start,
@@ -59,13 +65,13 @@ def api_recommend():
     }), 200
 
 
-# api endpoint: get catalogue titles
+# added api endpoint to get full catalogue
 @app.route("/api/catalogue", methods=["GET"])
 def api_catalogue():
     return jsonify(list(_CATALOGUE.values())), 200
 
 
-# api endpoint: get user personas list
+# added api endpoint to get available user personas
 @app.route("/api/users", methods=["GET"])
 def api_users():
     user_counts: dict[str, int] = defaultdict(int)
@@ -77,7 +83,7 @@ def api_users():
     return jsonify(users), 200
 
 
-# start local development server
+# run local development server
 if __name__ == "__main__":
     print(f"BingeBot loaded: {len(_CATALOGUE)} titles, {len(set(i['user_id'] for i in _INTERACTIONS))} users, {len(_INTERACTIONS)} interactions")
     print("Starting at http://127.0.0.1:5001")

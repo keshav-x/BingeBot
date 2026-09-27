@@ -1,2 +1,9 @@
 # Ensure Python is detected as the primary language on GitHub
-static/** linguist-vendored
+*.html linguist-vendored=true
+*.html linguist-detectable=false
+index.html linguist-vendored=true
+index.html linguist-detectable=false
+static/** linguist-vendored=true
+static/** linguist-detectable=false
+sample_data/** linguist-vendored=true
+sample_data/** linguist-detectable=false

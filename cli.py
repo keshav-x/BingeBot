@@ -13,6 +13,7 @@ DATA_DIR = os.path.join(os.path.dirname(__file__), "sample_data")
 
 
 def load_data():
+    # load catalogue and interaction datasets
     with open(os.path.join(DATA_DIR, "catalogue.json"), "r", encoding="utf-8") as f:
         items = json.load(f)
     catalogue = {item["id"]: item for item in items}
@@ -24,6 +25,7 @@ def load_data():
 
 
 def main():
+    # parse command line arguments
     parser = argparse.ArgumentParser(description="BingeBot: OTT Movie Recommendations Engine.")
     parser.add_argument("--user", default="U001", help="Viewer User ID (e.g. U001, U002, NEW_USER).")
     parser.add_argument("--mood", default="", help="Current mood (e.g. cerebral, adrenaline, dark, uplifting).")
@@ -34,6 +36,7 @@ def main():
 
     catalogue, interactions = load_data()
 
+    # display movie catalogue if requested
     if args.catalogue:
         print("\n=== BingeBot Movie Catalogue ===")
         for tid, m in catalogue.items():
@@ -41,9 +44,11 @@ def main():
         print()
         return
 
+    # initialize recommender and execute query
     rec = HybridRecommender(catalogue, interactions)
     results = rec.recommend(user_id=args.user, mood=args.mood, genre=args.genre, top_n=args.top)
 
+    # display formatted recommendations in terminal
     print(f"\n=== Recommendations for {args.user} (Mood: '{args.mood or 'Any'}', Genre: '{args.genre or 'Any'}') ===")
     for idx, r in enumerate(results, 1):
         print(f"\n{idx}. {r['title']} ({r['year']}) - Match: {r['match_pct']}% (Score: {r['hybrid_score']}/5.0)")
