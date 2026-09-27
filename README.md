@@ -78,19 +78,6 @@ Open http://127.0.0.1:5001 in your browser.
 
 ---
 
-## Deploying to Vercel (No Server Required)
-
-This project can be deployed straight to Vercel without setting up a backend server or database:
-
-1. Push or fork this repo to your GitHub account.
-2. Go to Vercel (https://vercel.com) and click Add New Project.
-3. Select BingeBot.
-4. Keep all build settings as default (Framework: Other, Build command: blank, Output directory: ./).
-5. Click Deploy.
-
-Vercel will serve index.html and static files directly. The client-side JavaScript engine handles all recommendation math in the browser.
-
----
 
 ## API Endpoints (Local Flask)
 
