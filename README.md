@@ -1,92 +1,84 @@
-# BingeBot: Hybrid OTT Content Recommendation Engine
+# BingeBot
 
-A mathematical, multi-signal recommendation engine and interactive web console that combines **Collaborative Filtering** (viewer taste similarity), **Content Trait Similarity** (genres and themes), and **Mood Tone Context** for streaming discovery.
+Hybrid content recommendation engine and web dashboard that suggests movies based on viewer history, genre similarity, and current mood context.
 
-Built to run **100% self-contained** with **zero server dependencies on Vercel** and **zero paid subscriptions**.
+Built to run 100% self-contained with zero server dependencies on Vercel and zero paid subscriptions.
 
 ---
 
 ## Key Features
 
-- **Tri-Hybrid Ranking Formula**: Mathematically balances collaborative user signals (50%), content similarity (30%), and viewer mood boost (20%).
-- **Automated Cold-Start Fallback**: Instantly provides top-rated, mood-filtered recommendations for new viewers with zero interaction history.
-- **Explainable Attribution**: Every suggestion breaks down *why* it was selected (similar viewer ratings + content overlap + mood boost).
-- **Dual-Mode Architecture**: Runs as a full Python Flask backend locally (`http://127.0.0.1:5001`), or as a zero-server Edge application when deployed to Vercel.
-- **Executive Earth Design**: Styled in a refined, high-contrast masculine palette (Terracotta Rust, Burnished Amber, Forest Green, Deep Charcoal on warm ivory).
+- Tri-Hybrid Ranking: Combines collaborative viewer signals (50%), content genre similarity (30%), and mood boost (20%).
+- Cold-Start Fallback: Instantly provides top-rated, mood-filtered recommendations for new viewers with zero rating history.
+- Plain-English Attribution: Every suggestion explains why it was selected (similar viewer ratings, shared genres, or mood fit).
+- Dual-Mode Architecture: Runs locally on a Python Flask backend (http://127.0.0.1:5001), or as a zero-server Edge app on Vercel using client-side JavaScript.
+- Clean Earth Palette: Styled in a high-contrast executive theme (rust, amber, forest green, charcoal on warm ivory).
 
 ---
 
 ## System Architecture
 
-BingeBot operates on a multi-signal algorithmic architecture that synthesizes behavioral collaborative patterns with intrinsic content metadata and real-time contextual intent.
-
-### Architectural Diagram
-
-```mermaid
-flowchart TD
-    subgraph Input [1. Viewer Request Context]
-        U[Viewer Persona: User ID] --> Router{Cold-Start Check}
-        M[Current Mood Context\ne.g. Cerebral, Adrenaline] --> S3[Mood Matcher]
-        G[Genre Preference\ne.g. Sci-Fi, Crime] --> S2[Content Vectorizer]
-    end
-
-    subgraph Signals [2. Multi-Signal Scoring Core]
-        Router -->|Existing Viewer History| S1[Collaborative Filtering Engine\nCosine Taste Similarity Over User Matrix]
-        Router -->|New Viewer Zero History| CS[Cold-Start Fallback Engine\nBayesian Catalogue Rating + Mood Prior]
-
-        S1 -->|Collaborative Score S_collab| Fuse[Hybrid Scoring Fusion Core]
-        S2 -->|Content Similarity S_content| Fuse
-        S3 -->|Contextual Boost S_mood| Fuse
-        CS -->|Fallback Baseline| Fuse
-    end
-
-    subgraph Formula [3. Mathematical Formulation]
-        Fuse --> Calc["Score = (0.50 * S_collab) + (0.30 * S_content) + (0.20 * S_mood * 5.0)"]
-        Calc --> Clamping["Score Clamped: [1.0, 5.0] Stars\nMatch % = (Score / 5.0) * 100"]
-    end
-
-    subgraph Output [4. Ranking & Explainability Engine]
-        Clamping --> Rank[Top-N Sorting & Candidate Deduping]
-        Rank --> Reason[Explainable Attribution Generator\nWhy This Title Was Recommended]
-        Reason --> UI[Responsive Analytics & Recommendation Grid]
-    end
-
-    subgraph Runtime [5. Dual Execution Runtime]
-        R1[Local Environment\nPython 3.10 + Flask + NumPy / Scikit-Learn] -.-> Fuse
-        R2[Vercel Serverless Edge\nClient-Side In-Browser Matrix Math] -.-> Fuse
-    end
+```
++---------------------------------------------------------+
+|             Viewer ID + Mood + Genre Choice             |
++---------------------------------------------------------+
+                             |
+                             v
+                   Is this a new user?
+                             |
+            +----------------+----------------+
+            |                                 |
+         (Yes)                               (No)
+            |                                 |
+            v                                 v
++-----------------------+     +-------------------------------+
+| Cold Start Fallback   |     | Calculate 3 Hybrid Signals    |
+| Highest rated titles  |     | 1. Collaborative (50% weight) |
+| + Mood filter match   |     | 2. Content Genre (30% weight) |
++-----------------------+     | 3. Mood Boost    (20% weight) |
+            |                 +-------------------------------+
+            |                                 |
+            +----------------+----------------+
+                             |
+                             v
++---------------------------------------------------------+
+|                 Combine into Final Score                |
+| Final Score = (0.50 * Collab) + (0.30 * Content) + Mood |
+| Clamped to 1.0 - 5.0 stars (0% - 100% match)            |
++---------------------------------------------------------+
+                             |
+                             v
++---------------------------------------------------------+
+|                Ranked Movie Recommendations             |
+| With plain-text explanation of why each was picked      |
++---------------------------------------------------------+
 ```
 
-### Recommendation Formulation & Mathematical Model
+### How the Pipeline Works
 
-For an active viewer $u$ and candidate title $i$, the engine evaluates affinity using a linear weighted combination of three distinct signals:
+1. Viewer Context:
+   Accepts user persona ID, situational mood (such as cerebral, dark, adrenaline, uplifting), and preferred genre.
 
-$$\text{Score}(u, i) = \left(w_{\text{collab}} \times S_{\text{collab}}(u, i)\right) + \left(w_{\text{content}} \times S_{\text{content}}(u, i)\right) + \left(w_{\text{mood}} \times S_{\text{mood}}(m, i) \times 5.0\right)$$
+2. Signal 1 - Collaborative Filtering (50% weight):
+   Uses cosine similarity over the user-item rating matrix to identify viewers with matching taste. Predicts rating based on what similar viewers enjoyed.
 
-Where default weights are calibrated to prioritize behavioral affinity while maintaining contextual discovery:
-- **Collaborative Weight** ($w_{\text{collab}}$): `0.50` (50%)
-- **Content Weight** ($w_{\text{content}}$): `0.30` (30%)
-- **Mood Context Weight** ($w_{\text{mood}}$): `0.20` (20%)
+3. Signal 2 - Content Similarity (30% weight):
+   Calculates genre overlap between candidate movies and titles previously rated 4 stars or higher by this user.
 
-#### 1. Collaborative Signal ($S_{\text{collab}}$)
-Evaluates peer viewer similarity across the interaction matrix:
-$$S_{\text{collab}}(u, i) = \frac{\sum_{v \in N(u)} \text{sim}(u, v) \cdot r_{v, i}}{\sum_{v \in N(u)} |\text{sim}(u, v)|}$$
-Where $\text{sim}(u, v)$ is the Pearson or Cosine correlation between viewers $u$ and $v$ across co-rated titles.
+4. Signal 3 - Mood Context Boost (20% weight):
+   Adds a bonus score when candidate movie tags directly match the viewer's requested mood.
 
-#### 2. Content Signal ($S_{\text{content}}$)
-Measures the cosine similarity between the candidate title's genre/theme vector and the profile centroid of titles highly rated by viewer $u$:
-$$S_{\text{content}}(u, i) = \cos(\vec{P}_u, \vec{V}_i) \times 5.0$$
+5. Cold Start Fallback:
+   When a new viewer has zero rating history, the engine falls back to highest-rated titles filtered by the selected mood.
 
-#### 3. Contextual Mood Boost ($S_{\text{mood}}$)
-Matches candidate title tone attributes (e.g., `cerebral`, `dark`, `uplifting`, `intense`) with the viewer's immediate situational mood:
-$$S_{\text{mood}}(m, i) = \begin{cases} 1.0 & \text{if } m \in \text{Moods}(i) \\ 0.0 & \text{otherwise} \end{cases}$$
+6. Final Scoring Calculation:
+   Score = (0.50 * Collaborative) + (0.30 * Content) + (0.20 * Mood Boost * 5.0)
+   - Clamped between 1.0 and 5.0 stars.
+   - Normalized match percentage = (Score / 5.0) * 100.
 
-#### 4. Normalization & Cold-Start Fallback
-- **Clamping**: All computed scores are clamped to $[1.0, 5.0]$ stars.
-- **Match Percentage**: Strictly normalized from $0\%$ to $100\%$:
-  $$\text{Match \%} = \min\left(100, \max\left(0, \text{round}\left(\frac{\text{Score}}{5.0} \times 100\right)\right)\right)$$
-- **Cold-Start Handling**: When a new user has zero prior ratings, $S_{\text{collab}}$ falls back to the Bayesian-damped catalogue average rating, enriched by mood alignment:
-  $$\text{Score}_{\text{cold}}(i) = (0.80 \times R_i) + (0.20 \times S_{\text{mood}} \times 5.0)$$
+7. Dual-Mode Execution:
+   - Local Mode: Uses app.py with Flask, NumPy, and Scikit-Learn.
+   - Vercel Serverless Mode: Runs recommendation math in client-side JavaScript inside static/engine.js. Executes in under 1ms with zero backend server.
 
 ---
 
@@ -116,29 +108,29 @@ pip install -r requirements.txt
 ```bash
 python app.py
 ```
-Open **`http://127.0.0.1:5001`** in your browser.
+Open http://127.0.0.1:5001 in your browser.
 
 ---
 
 ## How to Deploy on Vercel (Zero Server Needed)
 
-BingeBot is architected to run on Vercel **without needing any backend server, subscription, or container**:
+BingeBot runs on Vercel without needing any backend server, subscription, or container:
 
-1. Fork or push this repository to your GitHub account (`keshav-x/BingeBot`).
-2. Log in to [Vercel](https://vercel.com) and click **"Add New Project"**.
-3. Import the `BingeBot` repository.
-4. Leave all build settings as default (Framework Preset: **Other**, Build Command: empty, Output Directory: `./`).
-5. Click **"Deploy"**.
+1. Push or fork this repository to your GitHub account.
+2. Log in to Vercel (https://vercel.com) and click "Add New Project".
+3. Import the BingeBot repository.
+4. Leave build settings as default (Framework Preset: Other, Build Command: empty, Output Directory: ./).
+5. Click "Deploy".
 
-Vercel will serve `index.html` directly from its global Edge network. The recommendation engine executes in the browser in `<1ms` with full functionality.
+Vercel serves index.html and static files directly from its global Edge network.
 
 ---
 
 ## REST API Specification (When Running Locally)
 
 ### Compute Recommendations
-- **Endpoint**: `POST /api/recommend`
-- **Payload**:
+- Endpoint: POST /api/recommend
+- Payload:
   ```json
   {
     "user_id": "U001",
@@ -147,7 +139,7 @@ Vercel will serve `index.html` directly from its global Edge network. The recomm
     "top_n": 3
   }
   ```
-- **Response**:
+- Response:
   ```json
   {
     "user_id": "U001",
@@ -164,7 +156,7 @@ Vercel will serve `index.html` directly from its global Edge network. The recomm
           "content": 4.2,
           "mood_boost": 0.2
         },
-        "explanation": "Users with similar taste rated this highly; shares genre traits; matches requested cerebral mood."
+        "explanation": "Similar viewers loved this, matches genres you watch, fits your cerebral mood."
       }
     ]
   }
@@ -176,21 +168,21 @@ Vercel will serve `index.html` directly from its global Edge network. The recomm
 
 ```
 BingeBot/
-├── index.html                  # Standalone Vercel Edge frontend (markup structure)
+├── index.html                  # Standalone Vercel Edge frontend
 ├── vercel.json                 # Vercel deployment configuration
-├── app.py                      # Flask REST API & recommendation engine
+├── app.py                      # Flask REST API and recommendation engine
 ├── requirements.txt            # Minimal dependencies (Flask, scikit-learn, numpy, pandas)
-├── README.md                   # Project documentation & architecture
+├── README.md                   # Project documentation
 ├── static/
 │   ├── style.css               # Executive Earth design system (CSS)
-│   └── engine.js               # Client-side recommendation math engine (JS)
+│   └── engine.js               # Client-side recommendation engine (JS)
 └── sample_data/
-    ├── catalogue.json          # 6 curated benchmark films
-    └── interactions.json       # Verified viewer ratings
+    ├── catalogue.json          # Benchmark movie catalogue
+    └── interactions.json       # Viewer rating history
 ```
 
 ---
 
 ## Author
 
-Developed by **Keshav Chaudhary** ([@keshav-x](https://github.com/keshav-x)).
+Developed by Keshav Chaudhary (https://github.com/keshav-x).
