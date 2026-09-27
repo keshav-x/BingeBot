@@ -106,7 +106,9 @@ Open http://127.0.0.1:5001 in your browser.
 BingeBot/
 ├── index.html                  # Main dashboard page
 ├── vercel.json                 # Vercel static hosting config
-├── app.py                      # Flask backend and recommendation logic
+├── app.py                      # Flask web application and API
+├── recommender.py              # Hybrid recommendation algorithms
+├── cli.py                      # Command-line interface for terminal usage
 ├── requirements.txt            # Python dependencies
 ├── README.md                   # Documentation
 ├── static/
